@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { TextField, Button } from '@mui/material';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const LoginPage = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const navigate = useNavigate();
 
   const handleUsernameChange = (event) => {
     setUsername(event.target.value);
@@ -13,9 +16,26 @@ const LoginPage = () => {
     setPassword(event.target.value);
   };
 
-  function handleLogin() {
-    console.log(username);
-    console.log(password);
+  async function handleLogin() {
+    if (!username || !password) {
+      console.error('Username and password are required');
+      return;
+    }
+
+    try {
+      const response = await axios.post('http://localhost:8080/api/home/authenticate', {
+        username: username,
+        password: password,
+      });
+
+      if (response.data !== null) {
+        navigate(`/courses/${username}`);
+      } else {
+        console.error('Authentication failed:', 'Invalid credentials');
+      }
+    } catch (error) {
+      console.error('Authentication failed:', error.message);
+    }
   }
 
   return (
