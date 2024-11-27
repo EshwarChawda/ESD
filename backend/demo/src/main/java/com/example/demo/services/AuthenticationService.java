@@ -13,11 +13,10 @@ public class AuthenticationService {
     private FacultyRepository facultyRepository;
 
     public boolean AuthenticateFaculty(String username, String password) {
-        System.out.println(username);
         Optional<Faculty> faculty = facultyRepository.findByFacCode(username);
-
-        System.out.println(faculty.isPresent());
-
-        return faculty.isPresent();
+        if(faculty.isPresent()) {
+            return password.equals(faculty.get().getPassword());
+        }
+        return false;
     }
 }

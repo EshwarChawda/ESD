@@ -19,9 +19,11 @@ public class MainController {
     @PostMapping("/authenticate")
     public ResponseEntity<?> AuthenticateUser(@RequestBody Authentication creds) {
         creds.setMode(1);
-        System.out.println("******************* Reached HERE ! *******************");
         if(authenticationService.AuthenticateFaculty(creds.getUsername(), creds.getPassword())) {
+            return new ResponseEntity<>(HttpStatus.OK);
         }
-        return new ResponseEntity<>(HttpStatus.OK);
+        else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 }
