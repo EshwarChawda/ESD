@@ -10,12 +10,6 @@ import java.util.Optional;
 public class DemoApplication {
     public static void main(String[] args) {
         SpringApplication.run(DemoApplication.class, args);
-        System.out.println("***************************\n***************************");
-//        MyService myService = new MyService();
-//        Optional<Student> student = myService.studentRepository.findStudentByLoginId("S001");
-//        System.out.println("Student is present : "+student.isPresent());
-//        System.out.println("Student name : "+student.get().getStudentName());
-
     }
 
 }

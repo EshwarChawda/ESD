@@ -42,7 +42,28 @@ const TAList = () => {
     const { courseId, facCode } = useParams(); // Extract facCode from route parameters
   
     // Fetch TA list when the component mounts or when courseId changes
-    useEffect(() => {}, [courseId]);
+    useEffect(() => {
+        const fetchTAList = async () => {
+            try {
+              const response = await axios.post('http://localhost:8080/api/v1/faculty/ta-list', {
+                courseId: courseId,
+              });
+      
+              console.log('The TA list is: ', response.data);
+              setTAList(response.data);
+              if (response.data !== null) {
+                console.log("Fetch successful from the TA list");
+              } else {
+                console.error('Not able to fetch TA list.');
+              }
+            } catch (error) {
+              console.error('Failed with error: ', error.message);
+            }
+          };
+      
+          fetchTAList();
+        
+    }, [courseId]);
   
     const handleAddTa = async () => {
         try {
@@ -53,9 +74,7 @@ const TAList = () => {
           });
       
           console.log('Add TA response: ', response);
-          // Assuming the API returns a success status
           if (response.status === 200) {
-            // Fetch the updated TA list to get the complete student details
             const updatedResponse = await axios.post('http://localhost:8080/api/v1/faculty/ta-list', {
               courseId: courseId,
             });

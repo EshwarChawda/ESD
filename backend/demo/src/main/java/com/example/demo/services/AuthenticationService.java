@@ -18,7 +18,7 @@ public class AuthenticationService {
 
     public String AuthenticateFaculty(String username, String password) {
         Optional<Faculty> faculty = facultyRepository.findByFacCode(username);
-        if(faculty.isPresent()) {
+        if(faculty.isPresent() && faculty.get().getPassword().equals(password) ) {
             return jwtHelper.generateToken(username);
         }
         return "Inavlid username or password";

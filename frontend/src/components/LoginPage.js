@@ -28,7 +28,7 @@ const LoginPage = () => {
         password: password,
       });
 
-      if (response.data !== null) {
+      if (response.data !== null && response.data.localeCompare("Inavlid username or password") !== 0) {
         navigate(`/courses/${username}`);
       } else {
         console.error('Authentication failed:', 'Invalid credentials');
