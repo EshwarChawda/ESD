@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
+import axios from 'axios';
 
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, makeStyles } from '@material-ui/core';
 
@@ -20,11 +21,31 @@ const useStyles = makeStyles({
 
 const Courses = () => {
   const classes = useStyles();
-  const [courses] = useState([]);
+  const [courses, setCourses] = useState([]);
   const { username } = useParams();
   const facCode = username;
 
-  useEffect(() => {}
+  useEffect(() => {
+    const fetchCourses = async () => {
+      try {
+        const response = await axios.post('http://localhost:8080/api/v1/faculty/courses', {
+          facCode: facCode,
+        });
+
+        console.log('the data is : ', response.data);
+        setCourses(response.data);
+        if (response.data !== null) {
+          console.log("fetch successful from the courses");
+        } else {
+          console.error('Not able to fetch:');
+        }
+      } catch (error) {
+        console.error('failed with error: ', error.message);
+      }
+    };
+
+    fetchCourses();
+  }
   , [facCode]);
 
   return (
